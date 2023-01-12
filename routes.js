@@ -5,4 +5,5 @@ module.exports = function (app) {
     app.use("/logout", require("./src/routes/logout.routes"));
     app.use("/register", require("./src/routes/register.routes"));
     app.use("/secrets", require("./src/routes/secrets.routes"));
+    app.use("/submit", require("./src/routes/submit.routes"))
   };
