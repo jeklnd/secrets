@@ -11,7 +11,7 @@ const GoogleStrategy = require("passport-google-oauth20");
 const findOrCreate = require("mongoose-find-or-create");
 const User = require("./src/models/user")
 
-// initialize app
+// create app
 const app = express();
 
 // connect to database
@@ -23,12 +23,17 @@ const config = require('./src/configs/config')
 // import routes
 require("./routes")(app);
 
+// serve static files
 app.use(express.static("public"));
+
+// set view engine
 app.set("view engine", "ejs");
+
+// initialize bodyParser
 app.use(bodyParser.urlencoded({ extended: true }));
 
 
-// initialize 
+// initialize passport middleware
 app.use(
   session({
     secret: process.env.SECRET,
@@ -38,7 +43,6 @@ app.use(
 );
 app.use(passport.initialize());
 app.use(passport.session());
-
 
 
 // configure passport-local-mongoose
@@ -61,22 +65,22 @@ passport.use(
   )
 );
 
-// configure sessions
-passport.serializeUser(function(user, cb) {
-  process.nextTick(function() {
-    return cb(null, {
-      id: user.id,
-      username: user.username,
-      picture: user.picture
-    });
-  });
-});
+// // configure sessions
+// passport.serializeUser(function(user, cb) {
+//   process.nextTick(function() {
+//     return cb(null, {
+//       id: user.id,
+//       username: user.username,
+//       picture: user.picture
+//     });
+//   });
+// });
 
-passport.deserializeUser(function(user, cb) {
-  process.nextTick(function() {
-    return cb(null, user);
-  });
-});
+// passport.deserializeUser(function(user, cb) {
+//   process.nextTick(function() {
+//     return cb(null, user);
+//   });
+// });
 
 
 app.listen(config.app.port, () => {
